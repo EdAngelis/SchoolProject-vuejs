@@ -12,17 +12,19 @@ v-app#inspire
         v-toolbar-title Projeto Escola Vue Js
     v-content
         v-container
-            v-btn(@click="addHeroe") Testando api  
+            heroeList
             addHeroe(@submitedHeroe="addHeroe")
 </template>
 
 <script>
 import addHeroe from '../components/addHeroe'
-import itensMixins from '../mixins/mixinsTitles'
+import itensMixins from '../mixins/mixins'
+import heroeList from '../components/listOfHeroes-component'
 export default {
   name: 'rest-api',
   components: {
-    addHeroe
+    addHeroe,
+    heroeList
     },
   mixins: [itensMixins],
   data () {
@@ -34,20 +36,14 @@ export default {
   },
   methods: {
    async addHeroe (heroe) {
-     await this.axios.post('http://localhost:3000/heroes/add-heroe', heroe)
+     await this.axios.post( `${process.env.ROOT_API}/heroes/add-heroe`, heroe)
             .then(res => {
-          console.log('Requisição Enviada', res)
+          console.log(res.msg)
+        }).catch(err => {
+          console.log('Requisition dont go');
         })
     }
   },
-/*  beforeCreate () {
-    this.axios.get('http://localhost:3000/users/lista-de-users')
-      .then(data => {
-        this.usersList = data.data
-      }).catch(erro => {
-        console.log('Erro ao carregar Lista')
-      })
-  } */
 }
 </script>
 

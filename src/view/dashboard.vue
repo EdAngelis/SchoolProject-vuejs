@@ -18,10 +18,10 @@ v-app#inspire
 
 <script>
 import restApi from '../view/rest-api.vue'
-import mixinsTitles from '../mixins/mixinsTitles'
+import mixins from '../mixins/mixins'
   export default {
     name: 'dashboard',
-    mixins:[mixinsTitles],
+    mixins:[mixins],
     components: {
         restApi
     },

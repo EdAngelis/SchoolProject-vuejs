@@ -15,7 +15,7 @@ v-app#inspire
 </template>
 
 <script>
-import itensMixins from '../mixins/mixinsTitles'
+import itensMixins from '../mixins/mixins'
 
 export default {
   name: 'vFor_vIf_vShow',
