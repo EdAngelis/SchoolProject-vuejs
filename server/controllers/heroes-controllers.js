@@ -16,9 +16,31 @@ router.get('/get-heroes', async (req, res, next) => {
      res.send(data)
    })
 });
-router.post('/edit-heroes', async (req, res, next) => {
-  console.log(req);
-  
+router.put('/edit-heroes', async (req, res, next) => {
+  console.log(req.body);
+  await heroeSchema.findByIdAndUpdate({_id: req.body.id})
+   .then((result) => {
+     console.log(result);     
+     result.description = req.body.text
+     result.save()
+      .then((result) => {
+        res.send('Heroe Edited') 
+      }).catch((err) => {
+        res.send('Problem trying to update')
+      });
+   }).catch((err) => {
+      console.log('Heroe not found');
+      
+   });
 });
+router.delete('/delete-heroe/:id', async (req, res, next) => {
+  await heroeSchema.findByIdAndDelete({_id: req.params.id})
+    .then(data => {
+      res.send("Usuario Deletado")
+    }).catch(err => {
+      res.send("Não foi possível deletar")
+    })
+  
+})
 module.exports = router;
 

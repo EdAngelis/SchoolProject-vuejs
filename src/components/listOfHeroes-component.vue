@@ -16,9 +16,16 @@
                   v-btn(color="success" @click='editHeroe(heroe._id)') Salvar
                   v-btn(color="info" @click="edit = null") Cancelar
             div.col-md-1    
-              v-icon.icon delete
+              v-icon.icon(@click="dialogDeleteOpen(heroe._id)") delete
               v-icon.icon(@click="edit = index") edit
           div.divider
+      v-dialog(v-model="dialogDelete" width="500")
+        v-container(center justify-center texte-center)  
+          v-card
+            v-card-title(class="headline grey lighten-2" primary-title)  Realmente Gostaria de Deletar o heroi?
+            v-card-actions
+              v-btn(color="warning" @click="deleteHeroe()") delete
+              v-btn(color="info" @click="dialogDelete = !dialogDelete") cancel
 </template>
 
 <script>
@@ -27,25 +34,44 @@ export default {
   data() {
       return {
           heroeList:[],
-          edit: Number,
-          textToEdit: ''
+          edit: null,
+          textToEdit: '',
+          dialogDelete: false,
+          heroeToDelete: ""
       }
   },
   methods: {
-    editHeroe(idHeroe) {
+    async editHeroe(idHeroe) {
       const toSend = {
         id: idHeroe,
         text: this.textToEdit
       }
-      this.axios.post(`${process.env.ROOT_API}/heroes/edit-heroes`, toSend)
+      await this.axios.put(`${process.env.ROOT_API}/heroes/edit-heroes`, toSend)
         .then(data => {
           console.log(data);
+          this.edit = null
+          mounted()
+        })
+      
+    },
+    dialogDeleteOpen(idHeroe) {
+      this.heroeToDelete = idHeroe;
+      this.dialogDelete = !this.dialogDelete;
+
+    },
+    deleteHeroe() {
+      this.axios.delete(`${process.env.ROOT_API}/heroes/delete-heroe/${this.heroeToDelete}`)
+        .then((result) => {
+          console.log('Heroe sendo deletado');
+          this.dialogDelete = !this.dialogDelete;
+        }).catch(err => {
+          console.log('Não foi possível deletar')
         })
       
     }
   },
-  beforeCreate() {
-    this.axios.get(`${process.env.ROOT_API}/heroes/get-heroes`)
+  async mounted() {
+    await this.axios.get(`${process.env.ROOT_API}/heroes/get-heroes`)
       .then(data => {
         this.heroeList = data.data
         

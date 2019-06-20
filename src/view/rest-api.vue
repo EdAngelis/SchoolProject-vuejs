@@ -1,37 +1,33 @@
 <template lang='pug'>
 v-app#inspire
-    v-navigation-drawer(v-model="drawer" fixed app)
-        v-list(dense)
-            v-list-tile.list(v-for="item in itensMixins" :key="item.title" @click="goPage(item.title)")
-               v-list-tile-action
-                  v-icon {{item.icon}}
-               v-list-content
-                   v-list-tile-title {{item.title}}
-    v-toolbar(color="indigo" dark fixed app)
-        v-toolbar-side-icon( @click.stop="drawer = !drawer")
-        v-toolbar-title Projeto Escola Vue Js
+    NaviToolabr
     v-content
         v-container
-            heroeList
-            addHeroe(@submitedHeroe="addHeroe")
+            div(v-if="!AddHeroiComponent")
+                v-btn(color="warning" large @click="AddHeroiComponent = !AddHeroiComponent") Adcionar Heroe
+                heroeList
+            div(v-else)
+                v-btn(color="info" large @click="AddHeroiComponent = !AddHeroiComponent") Cancelar
+                addHeroe(@submitedHeroe="addHeroe")
 </template>
 
 <script>
+import NaviToolabr from '../components/Navigation-Toolbar'
 import addHeroe from '../components/addHeroe'
-import itensMixins from '../mixins/mixins'
 import heroeList from '../components/listOfHeroes-component'
 export default {
   name: 'rest-api',
   components: {
     addHeroe,
-    heroeList
+    heroeList,
+    NaviToolabr
     },
-  mixins: [itensMixins],
   data () {
     return {
       usersList: [],
       drawer: null,
-      right: null
+      right: null,
+      AddHeroiComponent: false
     }
   },
   methods: {
@@ -39,6 +35,7 @@ export default {
      await this.axios.post( `${process.env.ROOT_API}/heroes/add-heroe`, heroe)
             .then(res => {
           console.log(res.msg)
+          this.AddHeroiComponent = !this.AddHeroiComponent
         }).catch(err => {
           console.log('Requisition dont go');
         })

@@ -2,10 +2,11 @@ export default {
     data () {
         return {
           itensMixins: [
-            { title: 'dashboard', icon: 'dashboard' },
             { title: 'rest-api', icon: 'question_answer' },
-            { title: 'vFor_vIf_vShow', icon: 'question_answer' }
           ],
+          vuetifySessions: [
+            {title: 'grid', icon: 'edit'}
+          ]
         }
     },
     methods: {
