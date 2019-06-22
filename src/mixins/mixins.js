@@ -5,8 +5,10 @@ export default {
             { title: 'rest-api', icon: 'question_answer' },
           ],
           vuetifySessions: [
-            {title: 'grid', icon: 'edit'}
-          ]
+            {title: 'grid', icon: 'edit'},
+            {title: 'responsive-layout', icon: 'edit'}
+          ],
+          
         }
     },
     methods: {

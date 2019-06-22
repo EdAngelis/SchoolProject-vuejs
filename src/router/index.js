@@ -34,9 +34,9 @@ export default new Router({
       component: () => import('../view/grid.vue')
     },
     {
-      path: '/elementos',
-      name: 'elementos',
-      component: () => import('../components/elementos')
+      path: '/responsive-layout',
+      name: 'responsive-layout',
+      component: () => import('../view/responsive-layout.vue')
     },
     
   ]
