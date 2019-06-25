@@ -6,7 +6,10 @@ export default {
           ],
           vuetifySessions: [
             {title: 'grid', icon: 'edit'},
-            {title: 'responsive-layout', icon: 'edit'}
+            {title: 'responsive-layout', icon: 'edit'},
+            {title: 'typography', icon: 'edit'},
+            {title: 'elements-position', icon: 'edit'}
+
           ],
           
         }

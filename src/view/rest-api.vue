@@ -1,26 +1,26 @@
 <template lang='pug'>
 v-app#inspire
-    NaviToolabr
-    v-content
-        v-container
-            div(v-if="!AddHeroiComponent")
-                v-btn(color="warning" large @click="AddHeroiComponent = !AddHeroiComponent") Adcionar Heroe
-                heroeList
-            div(v-else)
-                v-btn(color="info" large @click="AddHeroiComponent = !AddHeroiComponent") Cancelar
-                addHeroe(@submitedHeroe="addHeroe")
+  v-container
+      div(v-if="!AddHeroiComponent")
+          v-btn(color="warning" large @click="AddHeroiComponent = !AddHeroiComponent") Adcionar Heroe
+          heroeList
+      div(v-else)
+          v-btn(color="info" large @click="AddHeroiComponent = !AddHeroiComponent") Cancelar
+          addHeroe(@submitedHeroe="addHeroe")
 </template>
 
 <script>
 import NaviToolabr from '../components/Navigation-Toolbar'
 import addHeroe from '../components/addHeroe'
 import heroeList from '../components/listOfHeroes-component'
+import footerComponent from '../components/footer-component'
 export default {
   name: 'rest-api',
   components: {
     addHeroe,
     heroeList,
-    NaviToolabr
+    NaviToolabr,
+    footerComponent
     },
   data () {
     return {

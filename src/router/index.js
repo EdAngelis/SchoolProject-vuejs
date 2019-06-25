@@ -38,6 +38,15 @@ export default new Router({
       name: 'responsive-layout',
       component: () => import('../view/responsive-layout.vue')
     },
-    
+    {
+      path: '/typography',
+      name: 'typography',
+      component: () => import('../view/typography')
+    },
+    {
+      path: '/elements-position',
+      name: 'elements-position',
+      component: () => import('../view/elements-position.vue')
+    }
   ]
 })
