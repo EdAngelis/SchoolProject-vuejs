@@ -8,7 +8,9 @@ export default {
             {title: 'grid', icon: 'edit'},
             {title: 'responsive-layout', icon: 'edit'},
             {title: 'typography', icon: 'edit'},
-            {title: 'elements-position', icon: 'edit'}
+            {title: 'elements-position', icon: 'edit'},
+            {title: 'forms-adress', icon: 'edit'}
+            
 
           ],
           

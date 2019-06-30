@@ -47,6 +47,12 @@ export default new Router({
       path: '/elements-position',
       name: 'elements-position',
       component: () => import('../view/elements-position.vue')
+    },
+    {
+      path: '/forms-adress',
+      name: 'forms-adress',
+      component: () => import('../view/forms-adress.vue')
     }
+
   ]
 })
