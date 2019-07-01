@@ -1,11 +1,14 @@
 <template lang='pug'>
   v-app 
     v-container
-      h1(class="text-xs-center") Validação de e-mail e senha e busca de endereço por cep
+      h1(class="text-xs-center") Validação de e-mail e senha, e busca de endereço por cep
       v-form(ref="form" v-model="valid" lazy-validation)
         v-layout(row wrap)
           v-flex(md12)
-            v-text-field(v-model='register.name' :rules="nameRules" label="Nome" required)
+            v-text-field(
+              v-model='register.name' 
+              :rules="[rules.required]" 
+              label="Nome")
           v-flex(md6 pr-3)
             v-text-field(
               v-model='register.password' 
@@ -13,7 +16,7 @@
               label="Senha" 
               :append-icon="show1 ? 'visibility' : 'visibility_off'"
               :type="show1 ? 'text' : 'password'"
-              :rules="passwordRules" 
+              :rules="[rules.required, rules.min8]" 
               @click:append="show1 = !show1"
               required)
           v-flex(md6)
@@ -21,30 +24,52 @@
               v-model='register.repeatPassword' 
               :append-icon="show2 ? 'visibility' : 'visibility_off'"
               :type="show2 ? 'text' : 'password'"
-              :rules="passwordRules"
+              :rules="[rules.required, rules.confirmPassword]"
               @click:append="show2 = !show2"
               counter 
-              label="Confirme a senha" 
-              required)
+              label="Confirme a senha" )
           v-flex(md6 pr-3)
-            v-text-field(v-model='register.email' :rules="emailRules" label="E-mail" required)
+            v-text-field(
+              v-model='register.email' 
+              :rules="[rules.validEmail, rules.required]" 
+              label="E-mail")
           v-flex(md6)
-            v-text-field(v-model='register.confirmeEmail' label="Confirme E-mail" required)
+            v-text-field(
+              v-model='register.confirmeEmail' 
+              :rules="[rules.required, rules.confirmEmail]"
+              label="Confirme E-mail")
           v-flex(md3 pr-2)
-            v-text-field(v-model="cep" v-on:keyup="searchCep" label="CEP")
-            span(v-show="cepValido" class="red--text") digite um cep válido
+            v-text-field(
+              v-model="cep" 
+              v-on:keyup="searchCep" 
+              label="CEP"
+              :rules="[rules.validCep]")
           v-flex(md7 pr-2)
-            v-text-field(v-model="adress.logradouro" label="Logradouro")
+            v-text-field(
+              v-model="adress.logradouro" 
+              label="Logradouro"
+              :rules="[rules.required]")
           v-flex(md2)
-            v-text-field(v-model="register.streetNumber" label="Número")
+            v-text-field(
+              v-model="register.streetNumber" 
+              label="Número"
+              :rules="[rules.required]")
           v-flex(md4 pr-2)
-            v-text-field(v-model="adress.bairro" label="Bairro" required)
+            v-text-field(
+              v-model="adress.bairro" 
+              label="Bairro"
+              :rules="[rules.required]")
           v-flex(md4 pr-2)
-            v-text(v-model="estado" )
-              v-autocomplete(:items="estados" v-model="estado" label="Estado")
+            v-text(
+              v-model="estado"
+              :rules="[rules.required]")
+              v-autocomplete(v-model="estado" :items="estados" label="Estado")
           v-flex(md4)
-            v-text(v-model="adress.localidade" label="Cidade")
-              v-autocomplete(:items="cidades" v-model="adress.localidade" label="Cidade")
+            v-text(
+              v-model="adress.localidade" 
+              label="Cidade"
+              :rules="[rules.required]")
+              v-autocomplete(v-model="adress.localidade" :items="cidades" label="Cidade")
           v-flex(md4)
             v-btn(color="success" :disabled="!valid" @click="validate") Registrar
             v-btn(color="error" @click="resetForm") Limpar
@@ -57,7 +82,7 @@ export default {
   name: 'forms-adress',
   data() {
     return {
-      show1: false, show2: false, valid: true, cepValido: false, naoLocalizado: false,
+      show1: false, show2: false, valid: true, naoLocalizado: false,
       register: {
         name: '',
         password: '',
@@ -71,18 +96,15 @@ export default {
       estado: null,
       cidades: [],
       brasil,
-      nameRules: [
-        v => !!v || 'É preciso colocar o Nome',
-        v => (v && v.length <= 10 || 'Nome precisa ter mais de 10 caracteres')
-      ],
-      emailRules: [
-        v => !!v || 'E-mail é necessário',
-        v => /.+@.+/.test(v) || 'E-mail não valido'
-      ],
-      passwordRules:[
-        v => !!v || 'Senha requerida',
-        v => v.length >=8 || 'Mínimo de 8 caracteres'
-      ],
+      rules: {
+        required: v => !!v || 'Campo requerido',
+        validEmail: v => /.+@.+/.test(v) || 'E-mail não valido',
+        min8: v => v.length >=8 || 'Mínimo de 8 caracteres',
+        confirmPassword: v => v === this.register.password || 'Senhas não conferem',
+        confirmEmail:  v => v === this.register.email || 'E-mails não conferem',
+        validCep: v => /^[0-9]{5}-[0-9]{3}$/.test(v) || 'Digite um cep valido'
+      },
+
       estados: [
         { value: null, text: "Selecione um estado" },
         { value: "AC", text: "Acre" },
@@ -117,7 +139,6 @@ export default {
   },
 watch: {
     'estado': function () {
-      this.cepValido = false
       this.cidades = brasil[this.estado].cidades
     }
 },
@@ -129,7 +150,6 @@ watch: {
         this.axios.get(`https://viacep.com.br/ws/${this.cep}/json/`)
           .then(data => {
             if(data.error){
-              this.cepValido = true
             }else {
               this.adress = data.data
               this.estado = data.data.uf
@@ -137,7 +157,7 @@ watch: {
           }).catch( err => {
             console.log(err);
           })
-      }else this.cepValido = true;
+      }
       
     },
   validate () {
