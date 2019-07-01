@@ -40,13 +40,13 @@
               label="Confirme E-mail")
           v-flex(md3 pr-2)
             v-text-field(
-              v-model="cep" 
+              v-model="register.cep" 
               v-on:keyup="searchCep" 
-              label="CEP"
-              :rules="[rules.validCep]")
+              label="CEP")
+            span(v-show="cepNotFound" class="red--text") Cep não encontrado
           v-flex(md7 pr-2)
             v-text-field(
-              v-model="adress.logradouro" 
+              v-model="register.street" 
               label="Logradouro"
               :rules="[rules.required]")
           v-flex(md2)
@@ -56,20 +56,17 @@
               :rules="[rules.required]")
           v-flex(md4 pr-2)
             v-text-field(
-              v-model="adress.bairro" 
+              v-model="register.neighborhood" 
               label="Bairro"
               :rules="[rules.required]")
           v-flex(md4 pr-2)
-            v-text(
-              v-model="estado"
-              :rules="[rules.required]")
-              v-autocomplete(v-model="estado" :items="estados" label="Estado")
+            v-autocomplete(v-model="estado" :rules="[rules.required]" :items="estados" label="Estado")
           v-flex(md4)
-            v-text(
-              v-model="adress.localidade" 
-              label="Cidade"
-              :rules="[rules.required]")
-              v-autocomplete(v-model="adress.localidade" :items="cidades" label="Cidade")
+            v-autocomplete(
+              v-model="register.city" 
+              :rules="[rules.required]" 
+              :items="cidades" 
+              label="Cidade")
           v-flex(md4)
             v-btn(color="success" :disabled="!valid" @click="validate") Registrar
             v-btn(color="error" @click="resetForm") Limpar
@@ -82,7 +79,7 @@ export default {
   name: 'forms-adress',
   data() {
     return {
-      show1: false, show2: false, valid: true, naoLocalizado: false,
+      show1: false, show2: false, valid: true, naoLocalizado: false, cepNotFound: false,
       register: {
         name: '',
         password: '',
@@ -90,10 +87,14 @@ export default {
         email: '',
         confirmeEmail: '',
         cep: '',
+        state: '',
+        city: '',
+        street: '',
+        neighborhood: '',
         streetNumber: '',
       },
-      adress: {},
       estado: null,
+      adress: {},
       cidades: [],
       brasil,
       rules: {
@@ -104,7 +105,7 @@ export default {
         confirmEmail:  v => v === this.register.email || 'E-mails não conferem',
         validCep: v => /^[0-9]{5}-[0-9]{3}$/.test(v) || 'Digite um cep valido'
       },
-
+      
       estados: [
         { value: null, text: "Selecione um estado" },
         { value: "AC", text: "Acre" },
@@ -137,22 +138,32 @@ export default {
       ]
     }
   },
-watch: {
-    'estado': function () {
-      this.cidades = brasil[this.estado].cidades
-    }
-},
+  // Assiste Variavel estado, esperando uma alteração
+  watch: {
+      'estado': function () {
+        //Busca as cidades do estado selecionado e põe na variavel Cidades
+        this.cidades = brasil[this.estado].cidades
+        this.register.state = this.estado
+      }
+  },
   methods: {
     searchCep() {
+        console.log(this.register.cep);
         
-      if(/^[0-9]{5}-[0-9]{3}$/.test(this.cep))
+      if(/^[0-9]{5}-[0-9]{3}$/.test(this.register.cep))
       {
-        this.axios.get(`https://viacep.com.br/ws/${this.cep}/json/`)
+        this.axios.get(`https://viacep.com.br/ws/${this.register.cep}/json/`)
           .then(data => {
+            
             if(data.error){
+              this.cepNotFound = true;
             }else {
               this.adress = data.data
-              this.estado = data.data.uf
+              this.register.street = this.adress.logradouro
+              this.register.state = this.adress.uf
+              this.estado = this.adress.uf
+              this.register.city = this.adress.localidade
+              this.register.neighborhood = this.adress.bairro
             }
           }).catch( err => {
             console.log(err);
@@ -161,9 +172,7 @@ watch: {
       
     },
   validate () {
-    if (this.$refs.form.validate()){
-      this.snackbar = true
-    }
+    this.$refs.form.validate()
   },
   resetForm() {
     this.$refs.form.reset()
