@@ -52,7 +52,16 @@ export default new Router({
       path: '/forms-adress',
       name: 'forms-adress',
       component: () => import('../view/forms-adress.vue')
+    },
+    {
+      path: '/alerts-snackbar',
+      name: 'alerts-snackbar',
+      component: () => import('../view/alerts-snackbar.vue')
+    },
+    {
+      path: '/toolbar-menu-navi',
+      name: 'toolbar-menu-navi',
+      component: () => import('../view/toolbar-menu-navi.vue')
     }
-
   ]
 })

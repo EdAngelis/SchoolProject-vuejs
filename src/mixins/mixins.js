@@ -9,7 +9,9 @@ export default {
             {title: 'responsive-layout', icon: 'edit'},
             {title: 'typography', icon: 'edit'},
             {title: 'elements-position', icon: 'edit'},
-            {title: 'forms-adress', icon: 'edit'}
+            {title: 'forms-adress', icon: 'edit'},
+            {title: 'alerts-snackbar', icon: 'edit'},
+            {title: 'toolbar-menu-navi', icon: 'edit'}
             
 
           ],

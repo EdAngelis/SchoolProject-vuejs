@@ -4,11 +4,37 @@
       h1(class="text-xs-center") Validação de e-mail e senha, e busca de endereço por cep
       v-form(ref="form" v-model="valid" lazy-validation)
         v-layout(row wrap)
-          v-flex(md12)
+          v-flex(md6)
             v-text-field(
               v-model='register.name' 
               :rules="[rules.required]" 
               label="Nome")
+          // Data de Nascimento Input    
+          v-menu(
+            ref="menu"
+            v-model="menu"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            lazy
+            transition="scale-transition"
+            offset-y
+            full-width
+            min-width="290px")
+            template(v-slot:activator="{ on }")
+              v-text-field(
+                v-model='register.date'
+                label='Data de Nascimento'
+                :rules="[rules.required]"
+                prepend-icon="event"
+                readonly
+                v-on="on")
+            v-date-picker(
+              ref="picker"
+              v-model="register.date"
+              :max="new Date().toISOString().substr(0, 10)"
+              min="1950-01-01"
+              @change="save"
+            )
           v-flex(md6 pr-3)
             v-text-field(
               v-model='register.password' 
@@ -70,18 +96,24 @@
           v-flex(md4)
             v-btn(color="success" :disabled="!valid" @click="validate") Registrar
             v-btn(color="error" @click="resetForm") Limpar
+    sliderForm
 
 </template>
 
 <script>
 import brasil from '../../public/brasil.json'
+import sliderForm from '../components/slide-forms.vue'
 export default {
   name: 'forms-adress',
+  components: { 
+    sliderForm
+  },
   data() {
     return {
-      show1: false, show2: false, valid: true, naoLocalizado: false, cepNotFound: false,
+      show1: false, show2: false, valid: true, naoLocalizado: false, cepNotFound: false, menu: false,
       register: {
         name: '',
+        date: '',
         password: '',
         repeatPassword: '',
         email: '',
@@ -93,6 +125,7 @@ export default {
         neighborhood: '',
         streetNumber: '',
       },
+      date: null,
       estado: null,
       adress: {},
       cidades: [],
@@ -144,17 +177,24 @@ export default {
         //Busca as cidades do estado selecionado e põe na variavel Cidades
         this.cidades = brasil[this.estado].cidades
         this.register.state = this.estado
+      },
+      menu (val) {
+        val && setTimeout( () => (
+          this.$refs.picker.activePicker = 'YEAR'
+        ))
       }
   },
   methods: {
+    save (date) {
+      this.$refs.menu.save(this.register.date)
+      console.log(this.register.date);
+      
+    },
     searchCep() {
-        console.log(this.register.cep);
-        
       if(/^[0-9]{5}-[0-9]{3}$/.test(this.register.cep))
       {
         this.axios.get(`https://viacep.com.br/ws/${this.register.cep}/json/`)
           .then(data => {
-            
             if(data.error){
               this.cepNotFound = true;
             }else {
@@ -165,8 +205,6 @@ export default {
               this.register.city = this.adress.localidade
               this.register.neighborhood = this.adress.bairro
             }
-          }).catch( err => {
-            console.log(err);
           })
       }
       
