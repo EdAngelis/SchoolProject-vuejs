@@ -62,6 +62,17 @@ export default new Router({
       path: '/toolbar-menu-navi',
       name: 'toolbar-menu-navi',
       component: () => import('../view/toolbar-menu-navi.vue')
+    },
+    {
+      path: '/layouts',
+      name: 'layouts',
+      component: () => import('../view/layouts.vue')
+    },
+    {
+      path: '/buttons-icons',
+      name: 'buttons-icons',
+      component: () => import('../view/buttons-icons.vue')
     }
+
   ]
 })

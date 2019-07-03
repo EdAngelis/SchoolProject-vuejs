@@ -11,9 +11,9 @@ export default {
             {title: 'elements-position', icon: 'edit'},
             {title: 'forms-adress', icon: 'edit'},
             {title: 'alerts-snackbar', icon: 'edit'},
-            {title: 'toolbar-menu-navi', icon: 'edit'}
-            
-
+            {title: 'toolbar-menu-navi', icon: 'edit'},
+            {title: 'layouts', icon: 'edit'},
+            {title: 'buttons-icons', icon: 'edit'}
           ],
           
         }
