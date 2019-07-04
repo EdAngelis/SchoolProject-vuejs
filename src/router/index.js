@@ -72,7 +72,13 @@ export default new Router({
       path: '/buttons-icons',
       name: 'buttons-icons',
       component: () => import('../view/buttons-icons.vue')
+    },
+    {
+      path: '/icons',
+      name: 'icons',
+      component: () => import('../view/icons.vue')
     }
+
 
   ]
 })

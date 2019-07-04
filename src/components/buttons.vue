@@ -20,11 +20,11 @@
       v-card-actions
         v-layout(row)
           v-flex(md2)
-            v-card-text.font-weight-bold Cores
+            v-subheader.font-weight-bold Cores
             v-radio-group(v-model='color')
               v-radio(v-for='item in colors' :key='item' :label='item' :value='item' :color="item")
           v-flex(md2)
-            v-card-text.font-weight-bold Tamanho
+            v-subheader.font-weight-bold Tamanho
             v-radio-group(v-model='scale' @click="sizeButton")
               v-radio(v-for='item in scales' :key='item' :label='item' :value='item')  
           // Swites
@@ -40,10 +40,7 @@
           v-flex(md2)
             v-checkbox(v-model="withIcon" label="With Icon")
             v-checkbox(v-model="text" label="With Text")
-    // Other Session
-    cardSession(:title="title")
 
-  
                 
 </template>
 

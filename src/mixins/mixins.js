@@ -13,7 +13,9 @@ export default {
             {title: 'alerts-snackbar', icon: 'edit'},
             {title: 'toolbar-menu-navi', icon: 'edit'},
             {title: 'layouts', icon: 'edit'},
-            {title: 'buttons-icons', icon: 'edit'}
+            {title: 'buttons-icons', icon: 'edit'},
+            {title: 'icons', icon: 'edit'}
+
           ],
           
         }
