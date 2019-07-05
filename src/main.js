@@ -10,11 +10,6 @@ import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import Vuetify from 'vuetify'
-import * as svgicon from 'vue-svgicon'
-
-Vue.use(svgicon, {
-  classPrefix: 'AppIcon-',
-})
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)

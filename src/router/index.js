@@ -77,6 +77,11 @@ export default new Router({
       path: '/icons',
       name: 'icons',
       component: () => import('../view/icons.vue')
+    },
+    {
+      path: '/teste',
+      name: 'teste',
+      component: () => import('../components/teste.vue')
     }
 
 

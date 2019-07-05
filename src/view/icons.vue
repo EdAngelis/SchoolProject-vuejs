@@ -73,22 +73,22 @@
       v-card.mt-3
         toolbarSession(title="Custom SVG icons")
         svgIconsComponent
-      
-
-  
-
-
-  
+      v-card.mt-3
+        toolbarSession(title="Animation SVG icons")
+        animationsSVG
+ 
 </template>
 
 <script>
+import animationsSVG from '../components/svg-animations'
 import svgIconsComponent from '../components/svg-icons.vue'
 import toolbarSession from '../components/card-session.vue'
 export default {
   name: 'icons',
   components: {
     toolbarSession,
-    svgIconsComponent  
+    svgIconsComponent,
+    animationsSVG  
   }
   }
 </script>

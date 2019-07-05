@@ -1,82 +1,21 @@
 <template>
-<v-toolbar dense>
-    <v-overflow-btn
-      :items="dropdown_font"
-      label="Select font"
-      hide-details
-      class="pa-0"
-    ></v-overflow-btn>
+ <div>
+   <iconBase width="256" height="256" ><groupSvg/></iconBase>
+ </div>
 
-    <v-divider vertical></v-divider>
-
-    <v-overflow-btn
-      :items="dropdown_edit"
-      editable
-      label="Select size"
-      hide-details
-      class="pa-0"
-      overflow
-    ></v-overflow-btn>
-
-    <v-divider
-      class="mr-2"
-      vertical
-    ></v-divider>
-
-    <v-btn-toggle
-      v-model="toggle_multiple"
-      class="transparent"
-      multiple
-    >
-      <v-btn :value="1" flat>
-        <v-icon>format_bold</v-icon>
-      </v-btn>
-
-      <v-btn :value="2" flat>
-        <v-icon>format_italic</v-icon>
-      </v-btn>
-
-      <v-btn :value="3" flat>
-        <v-icon>format_underlined</v-icon>
-      </v-btn>
-
-      <v-btn :value="4" flat>
-        <v-icon>format_color_fill</v-icon>
-      </v-btn>
-    </v-btn-toggle>
-
-    <v-divider
-      class="mx-2"
-      vertical
-    ></v-divider>
-
-    <v-btn-toggle
-      v-model="toggle_exclusive"
-      class="transparent"
-    >
-      <v-btn :value="1" flat>
-        <v-icon>format_align_left</v-icon>
-      </v-btn>
-
-      <v-btn :value="2" flat>
-        <v-icon>format_align_center</v-icon>
-      </v-btn>
-
-      <v-btn :value="3" flat>
-        <v-icon>format_align_right</v-icon>
-      </v-btn>
-
-      <v-btn :value="4" flat>
-        <v-icon>format_align_justify</v-icon>
-      </v-btn>
-    </v-btn-toggle>
-  </v-toolbar>
-  
 </template>
 
 <script>
+import groupSvg from '../components/icons/group.vue'
+import iconBase from '../components/icons/IconBase.vue'
+import peixeSvg from '../components/icons/peixe-svg.vue'
 export default {
   name: 'teste',
+  components: {
+    peixeSvg,
+    iconBase,
+    groupSvg    
+  }
   }
 </script>
 
