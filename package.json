@@ -5,8 +5,6 @@
   "author": "Ed Angelis <ed4ngelis@gmail.com>",
   "private": true,
   "scripts": {
-    "icons": "vsvg -s src/assets/icons -t src/components/icons",
-    "prebuild": "npm run icons",
     "build": "node build/build.js",
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
@@ -64,6 +62,7 @@
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.8",
     "postcss-url": "^7.2.1",
+    "push-dir": "^0.4.1",
     "rimraf": "^2.6.0",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
